@@ -1,0 +1,10 @@
+* text=auto eol=lf
+*.mp4 binary
+*.png binary
+# Synthetic cases deliberately retain invalid formatting and exact source hashes.
+datasets/** -whitespace
+*.sh text eol=lf
+*.tftpl text eol=lf
+*.py text eol=lf
+*.tf text eol=lf
+*.yaml text eol=lf

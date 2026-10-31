@@ -1,0 +1,14 @@
+x-aws-logging: &logging
+  driver: awslogs
+  options:
+    awslogs-region: ${AWS_DEFAULT_REGION}
+    awslogs-group: ${AWS_LOG_GROUP}
+    awslogs-create-group: "false"
+services:
+  postgres: {logging: *logging}
+  redis: {logging: *logging}
+  migrate: {logging: *logging}
+  api: {logging: *logging}
+  dispatcher: {logging: *logging}
+  worker: {logging: *logging}
+  ui: {logging: *logging}

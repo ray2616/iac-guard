@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "iac-guard"
+version = "0.1.0"
+description = "Local IaC scanning and deterministic, independently verified patch proposals"
+requires-python = ">=3.11,<3.14"
+readme = "README.md"
+dependencies = ["bc-python-hcl2==0.4.3"]
+
+[project.optional-dependencies]
+scanners = ["checkov==3.2.489"]
+ui = ["streamlit==1.51.0"]
+service = [
+    "fastapi>=0.115,<1", "uvicorn>=0.34,<1", "python-multipart>=0.0.20,<1",
+    "sqlalchemy>=2.0.36,<2.1", "alembic>=1.14,<2", "psycopg[binary]>=3.2,<4",
+    "redis>=5,<7", "rq>=2.6,<3", "boto3>=1.35,<2", "httpx>=0.28,<1",
+]
+dev = ["iac-guard[ui,service]", "pytest>=8,<10", "ruff>=0.9,<1"]
+
+[project.scripts]
+iac-guard = "iac_guard.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["iac_guard*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = ["integration: requires installed Checkov and Trivy (opt-in)"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint.per-file-ignores]
+"iac_guard/service/api.py" = ["B008", "BLE001"]
+"iac_guard/service/jobs.py" = ["BLE001"]
+"iac_guard/service/dispatcher.py" = ["BLE001"]

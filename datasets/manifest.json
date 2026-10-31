@@ -1,0 +1,455 @@
+[
+  {
+    "id": "tf01-ebs-literal",
+    "kind": "terraform",
+    "labels": [
+      {
+        "file": "main.tf",
+        "resource_suffix": "aws_ebs_volume.data",
+        "rules": {
+          "checkov": "CKV_AWS_3",
+          "trivy": "AVD-AWS-0026"
+        }
+      }
+    ],
+    "absent": [],
+    "expected": "findings",
+    "note": ""
+  },
+  {
+    "id": "tf02-rds-encryption",
+    "kind": "terraform",
+    "labels": [
+      {
+        "file": "main.tf",
+        "resource_suffix": "aws_db_instance.app",
+        "rules": {
+          "checkov": "CKV_AWS_16",
+          "trivy": "AVD-AWS-0080"
+        }
+      }
+    ],
+    "absent": [],
+    "expected": "findings",
+    "note": ""
+  },
+  {
+    "id": "tf03-rds-public",
+    "kind": "terraform",
+    "labels": [
+      {
+        "file": "main.tf",
+        "resource_suffix": "aws_db_instance.app",
+        "rules": {
+          "checkov": "CKV_AWS_17",
+          "trivy": "AVD-AWS-0180"
+        }
+      }
+    ],
+    "absent": [],
+    "expected": "findings",
+    "note": ""
+  },
+  {
+    "id": "tf04-variables",
+    "kind": "terraform",
+    "labels": [
+      {
+        "file": "main.tf",
+        "resource_suffix": "aws_ebs_volume.data",
+        "rules": {
+          "checkov": "CKV_AWS_3",
+          "trivy": "AVD-AWS-0026"
+        }
+      }
+    ],
+    "absent": [],
+    "expected": "findings",
+    "note": "Variable-driven attribute must be refused by automatic fixing."
+  },
+  {
+    "id": "tf05-cross-file-reference",
+    "kind": "terraform",
+    "labels": [
+      {
+        "file": "storage.tf",
+        "resource_suffix": "aws_ebs_volume.data",
+        "rules": {
+          "checkov": "CKV_AWS_3",
+          "trivy": "AVD-AWS-0026"
+        }
+      }
+    ],
+    "absent": [],
+    "expected": "findings",
+    "note": ""
+  },
+  {
+    "id": "tf06-local-module",
+    "kind": "terraform",
+    "labels": [
+      {
+        "file": "modules/volume/main.tf",
+        "resource_suffix": "aws_ebs_volume.data",
+        "rules": {
+          "checkov": "CKV_AWS_3",
+          "trivy": "AVD-AWS-0026"
+        },
+        "resource_aliases": {
+          "trivy": [
+            "module.volume"
+          ]
+        }
+      }
+    ],
+    "absent": [],
+    "expected": "findings",
+    "note": "Bundled module finding is scan-only."
+  },
+  {
+    "id": "tf07-two-root-files",
+    "kind": "terraform",
+    "labels": [
+      {
+        "file": "storage.tf",
+        "resource_suffix": "aws_ebs_volume.data",
+        "rules": {
+          "checkov": "CKV_AWS_3",
+          "trivy": "AVD-AWS-0026"
+        }
+      },
+      {
+        "file": "database.tf",
+        "resource_suffix": "aws_db_instance.app",
+        "rules": {
+          "checkov": "CKV_AWS_17",
+          "trivy": "AVD-AWS-0180"
+        }
+      }
+    ],
+    "absent": [],
+    "expected": "findings",
+    "note": ""
+  },
+  {
+    "id": "tf08-public-access-block",
+    "kind": "terraform",
+    "labels": [],
+    "absent": [],
+    "expected": "findings",
+    "note": "Unsupported automatic fix; access policy requires review."
+  },
+  {
+    "id": "tf09-open-ssh",
+    "kind": "terraform",
+    "labels": [],
+    "absent": [],
+    "expected": "findings",
+    "note": "Requires an approved source range, not a guessed replacement."
+  },
+  {
+    "id": "tf10-selected-variables",
+    "kind": "terraform",
+    "labels": [
+      {
+        "file": "main.tf",
+        "resource_suffix": "aws_ebs_volume.data",
+        "rules": {
+          "checkov": "CKV_AWS_3",
+          "trivy": "AVD-AWS-0026"
+        }
+      }
+    ],
+    "absent": [],
+    "expected": "findings",
+    "note": "Run with dev.tfvars explicitly selected.",
+    "variables": [
+      "dev.tfvars"
+    ]
+  },
+  {
+    "id": "tf11-rds-two-flaws",
+    "kind": "terraform",
+    "labels": [
+      {
+        "file": "main.tf",
+        "resource_suffix": "aws_db_instance.app",
+        "rules": {
+          "checkov": "CKV_AWS_16",
+          "trivy": "AVD-AWS-0080"
+        }
+      },
+      {
+        "file": "main.tf",
+        "resource_suffix": "aws_db_instance.app",
+        "rules": {
+          "checkov": "CKV_AWS_17",
+          "trivy": "AVD-AWS-0180"
+        }
+      }
+    ],
+    "absent": [],
+    "expected": "findings",
+    "note": ""
+  },
+  {
+    "id": "tf12-external-module",
+    "kind": "terraform",
+    "labels": [
+      {
+        "file": "main.tf",
+        "resource_suffix": "aws_ebs_volume.data",
+        "rules": {
+          "checkov": "CKV_AWS_3",
+          "trivy": "AVD-AWS-0026"
+        }
+      }
+    ],
+    "absent": [],
+    "expected": "unverified",
+    "note": "Must disclose unavailable external-module coverage without downloading it."
+  },
+  {
+    "id": "tf13-secure-volume",
+    "kind": "terraform",
+    "labels": [],
+    "absent": [
+      {
+        "file": "main.tf",
+        "resource_suffix": "aws_ebs_volume.data",
+        "rules": {
+          "checkov": "CKV_AWS_3",
+          "trivy": "AVD-AWS-0026"
+        }
+      }
+    ],
+    "expected": "secure-control",
+    "note": ""
+  },
+  {
+    "id": "tf14-secure-access-block",
+    "kind": "terraform",
+    "labels": [],
+    "absent": [],
+    "expected": "secure-control",
+    "note": ""
+  },
+  {
+    "id": "tf15-secure-split",
+    "kind": "terraform",
+    "labels": [],
+    "absent": [
+      {
+        "file": "storage.tf",
+        "resource_suffix": "aws_ebs_volume.data",
+        "rules": {
+          "checkov": "CKV_AWS_3",
+          "trivy": "AVD-AWS-0026"
+        }
+      }
+    ],
+    "expected": "secure-control",
+    "note": ""
+  },
+  {
+    "id": "tf16-secure-module",
+    "kind": "terraform",
+    "labels": [],
+    "absent": [
+      {
+        "file": "modules/volume/main.tf",
+        "resource_suffix": "aws_ebs_volume.data",
+        "rules": {
+          "checkov": "CKV_AWS_3",
+          "trivy": "AVD-AWS-0026"
+        }
+      }
+    ],
+    "expected": "secure-control",
+    "note": ""
+  },
+  {
+    "id": "tf17-malformed",
+    "kind": "terraform",
+    "labels": [],
+    "absent": [],
+    "expected": "invalid",
+    "note": ""
+  },
+  {
+    "id": "tf18-duplicate-root",
+    "kind": "terraform",
+    "labels": [],
+    "absent": [],
+    "expected": "refusal",
+    "note": "Duplicate root addresses must not be automatically patched."
+  },
+  {
+    "id": "tf19-reused-module",
+    "kind": "terraform",
+    "labels": [],
+    "absent": [],
+    "expected": "refusal",
+    "note": "Same source file instantiated twice; module edits are unsupported."
+  },
+  {
+    "id": "tf20-expression",
+    "kind": "terraform",
+    "labels": [],
+    "absent": [],
+    "expected": "refusal",
+    "note": "An expression is never rewritten as a guessed literal."
+  },
+  {
+    "id": "dk01-no-user",
+    "kind": "dockerfile",
+    "labels": [
+      {
+        "file": "Dockerfile",
+        "resource_suffix": "",
+        "rules": {
+          "checkov": "CKV_DOCKER_3",
+          "trivy": ""
+        }
+      }
+    ],
+    "absent": [],
+    "expected": "findings",
+    "note": "Configuration controls only; image existence/build/runtime not evaluated."
+  },
+  {
+    "id": "dk02-root-user",
+    "kind": "dockerfile",
+    "labels": [
+      {
+        "file": "Dockerfile",
+        "resource_suffix": "USER",
+        "rules": {
+          "checkov": "CKV_DOCKER_8",
+          "trivy": ""
+        }
+      }
+    ],
+    "absent": [],
+    "expected": "findings",
+    "note": "Configuration controls only; image existence/build/runtime not evaluated."
+  },
+  {
+    "id": "dk03-latest",
+    "kind": "dockerfile",
+    "labels": [
+      {
+        "file": "Dockerfile",
+        "resource_suffix": "FROM",
+        "rules": {
+          "checkov": "CKV_DOCKER_7",
+          "trivy": ""
+        }
+      }
+    ],
+    "absent": [],
+    "expected": "findings",
+    "note": "Configuration controls only; image existence/build/runtime not evaluated."
+  },
+  {
+    "id": "dk04-add",
+    "kind": "dockerfile",
+    "labels": [
+      {
+        "file": "Dockerfile",
+        "resource_suffix": "ADD",
+        "rules": {
+          "checkov": "CKV_DOCKER_4",
+          "trivy": ""
+        }
+      }
+    ],
+    "absent": [],
+    "expected": "findings",
+    "note": "Configuration controls only; image existence/build/runtime not evaluated."
+  },
+  {
+    "id": "dk05-expose-ssh",
+    "kind": "dockerfile",
+    "labels": [
+      {
+        "file": "Dockerfile",
+        "resource_suffix": "EXPOSE",
+        "rules": {
+          "checkov": "CKV_DOCKER_1",
+          "trivy": ""
+        }
+      }
+    ],
+    "absent": [],
+    "expected": "findings",
+    "note": "Configuration controls only; image existence/build/runtime not evaluated."
+  },
+  {
+    "id": "dk06-no-healthcheck",
+    "kind": "dockerfile",
+    "labels": [
+      {
+        "file": "Dockerfile",
+        "resource_suffix": "",
+        "rules": {
+          "checkov": "CKV_DOCKER_2",
+          "trivy": ""
+        }
+      }
+    ],
+    "absent": [],
+    "expected": "findings",
+    "note": "Configuration controls only; image existence/build/runtime not evaluated."
+  },
+  {
+    "id": "dk07-secure-control",
+    "kind": "dockerfile",
+    "labels": [],
+    "absent": [
+      {
+        "file": "Dockerfile",
+        "resource_suffix": "USER",
+        "rules": {
+          "checkov": "CKV_DOCKER_8",
+          "trivy": ""
+        }
+      }
+    ],
+    "expected": "secure-control",
+    "note": "Configuration controls only; image existence/build/runtime not evaluated."
+  },
+  {
+    "id": "dk08-secure-multistage",
+    "kind": "dockerfile",
+    "labels": [],
+    "absent": [
+      {
+        "file": "Dockerfile",
+        "resource_suffix": "FROM",
+        "rules": {
+          "checkov": "CKV_DOCKER_7",
+          "trivy": ""
+        }
+      }
+    ],
+    "expected": "secure-control",
+    "note": "Configuration controls only; image existence/build/runtime not evaluated."
+  },
+  {
+    "id": "dk09-missing-from",
+    "kind": "dockerfile",
+    "labels": [],
+    "absent": [],
+    "expected": "invalid",
+    "note": "Configuration controls only; image existence/build/runtime not evaluated."
+  },
+  {
+    "id": "dk10-fenced",
+    "kind": "dockerfile",
+    "labels": [],
+    "absent": [],
+    "expected": "invalid",
+    "note": "Configuration controls only; image existence/build/runtime not evaluated."
+  }
+]

@@ -1,0 +1,50 @@
+# Disposable verification services; does not use application history volumes.
+services:
+  test-postgres:
+    image: postgres:16.6-bookworm
+    profiles: [test]
+    environment:
+      POSTGRES_USER: iac
+      POSTGRES_PASSWORD: test-only
+      POSTGRES_DB: iac_guard_test
+    tmpfs: [/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U iac -d iac_guard_test"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  test-redis:
+    image: redis:7.4.1-bookworm
+    profiles: [test]
+    command: [redis-server, --save, "", --appendonly, "no"]
+    healthcheck:
+      test: [CMD, redis-cli, ping]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  verify:
+    image: iac-guard:0.1.0
+    profiles: [test]
+    user: "10001:10001"
+    working_dir: /workspace
+    volumes:
+      - .:/workspace:ro
+      - ./outputs:/results
+      - scanner_cache:/cache/trivy
+    environment:
+      DATABASE_URL: postgresql+psycopg://iac:test-only@test-postgres:5432/iac_guard_test
+      POSTGRES_TEST_URL: postgresql+psycopg://iac:test-only@test-postgres:5432/iac_guard_test
+      REDIS_URL: redis://test-redis:6379/0
+      STORAGE_PATH: /tmp/test-storage
+      AWS_EC2_METADATA_DISABLED: "true"
+      CHECKOV_SKIP_PLATFORM_DOWNLOAD: "true"
+      IAC_GUARD_INTEGRATION: "1"
+      PYTHONPATH: /tmp/test-deps:/workspace
+    command: [bash, scripts/verify-container.sh]
+    depends_on:
+      test-postgres: {condition: service_healthy}
+      test-redis: {condition: service_healthy}
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    read_only: true
+    tmpfs: ["/tmp:size=512m,mode=1777"]

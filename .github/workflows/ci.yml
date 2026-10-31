@@ -1,0 +1,67 @@
+name: Verify IaC Guard
+on:
+  push:
+    branches: [main, "codex/**"]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres:16.6-bookworm
+        env:
+          POSTGRES_USER: iac
+          POSTGRES_PASSWORD: ci-test-only
+          POSTGRES_DB: iac_guard_test
+        ports: ["5432:5432"]
+        options: --health-cmd "pg_isready -U iac -d iac_guard_test" --health-interval 5s --health-timeout 3s --health-retries 20
+      redis:
+        image: redis:7.4.1-bookworm
+        ports: ["6379:6379"]
+        options: --health-cmd "redis-cli ping" --health-interval 5s --health-timeout 3s --health-retries 20
+    env:
+      DATABASE_URL: postgresql+psycopg://iac:ci-test-only@localhost:5432/iac_guard_test
+      POSTGRES_TEST_URL: postgresql+psycopg://iac:ci-test-only@localhost:5432/iac_guard_test
+      REDIS_URL: redis://localhost:6379/0
+      STORAGE_PATH: work/ci-storage
+      AWS_EC2_METADATA_DISABLED: "true"
+      CHECKOV_SKIP_PLATFORM_DOWNLOAD: "true"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -c requirements-linux.lock.txt -e '.[dev,scanners]'
+      - run: ruff check iac_guard tests scripts migrations app.py
+      - run: alembic upgrade head
+      - run: alembic check
+      - run: pytest -m 'not integration'
+      - name: Install pinned scanner
+        run: |
+          mkdir -p "$RUNNER_TEMP/bin"
+          docker create --name scanner aquasec/trivy:0.65.0
+          docker cp scanner:/usr/local/bin/trivy "$RUNNER_TEMP/bin/trivy"
+          docker rm scanner
+          chmod +x "$RUNNER_TEMP/bin/trivy"
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+      - name: Live scanner verification
+        env: {IAC_GUARD_INTEGRATION: "1"}
+        run: pytest -m integration
+      - name: Verify corpus labels
+        run: python -m iac_guard.benchmark --scan-only --verify-labels
+      - name: Build application image
+        run: docker build -t iac-guard:ci .
+      - uses: hashicorp/setup-terraform@v3
+        with: {terraform_version: "1.9.8"}
+      - name: Validate deployment without AWS provisioning
+        run: |
+          terraform -chdir=infra/aws fmt -check
+          terraform -chdir=infra/aws init -backend=false
+          terraform -chdir=infra/aws validate
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-results
+          path: outputs/benchmark.json

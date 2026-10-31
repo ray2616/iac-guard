@@ -1,0 +1,41 @@
+#!/bin/bash
+set -euo pipefail
+dnf install -y docker awscli2 tar gzip openssl
+systemctl enable --now docker
+mkdir -p /opt/iac-guard
+cd /opt/iac-guard
+# The operator uploads the verified release immediately after terraform apply.
+for attempt in $(seq 1 90); do
+  if aws s3 cp 's3://${bucket}/${release_key}' /opt/release.tar.gz --region '${region}'; then break; fi
+  sleep 10
+done
+echo '${sha256}  /opt/release.tar.gz' | sha256sum --check
+tar --no-same-owner -xzf /opt/release.tar.gz -C /opt/iac-guard
+umask 077
+printf 'POSTGRES_PASSWORD=%s\n' "$(openssl rand -hex 24)" > .env
+cat >> .env <<'ENV'
+STORAGE_BACKEND=s3
+S3_BUCKET=${bucket}
+AWS_DEFAULT_REGION=${region}
+AWS_EC2_METADATA_DISABLED=false
+AWS_LOG_GROUP=${log_group}
+ENV
+# Install the official Compose plugin with checksum verification; version pinned in script.
+bash scripts/install-compose-linux.sh
+cat > /etc/systemd/system/iac-guard.service <<'UNIT'
+[Unit]
+Description=IaC Guard learning deployment
+After=docker.service network-online.target
+Requires=docker.service
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/opt/iac-guard
+ExecStart=/usr/bin/docker compose -f compose.yaml -f compose.aws.yaml up -d --build
+ExecStop=/usr/bin/docker compose -f compose.yaml -f compose.aws.yaml stop
+TimeoutStartSec=1800
+[Install]
+WantedBy=multi-user.target
+UNIT
+systemctl daemon-reload
+systemctl enable --now iac-guard

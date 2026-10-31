@@ -1,0 +1,542 @@
+{
+    "check_type": "terraform",
+    "results": {
+        "failed_checks": [
+            {
+                "check_id": "CKV_AWS_158",
+                "bc_check_id": null,
+                "check_name": "Ensure that CloudWatch Log Group is encrypted by KMS",
+                "check_result": {
+                    "result": "FAILED",
+                    "evaluated_keys": [
+                        "kms_key_id"
+                    ]
+                },
+                "code_block": null,
+                "file_path": "/main.tf",
+                "file_abs_path": "/workspace/infra/aws/main.tf",
+                "repo_file_path": "/workspace/infra/aws/main.tf",
+                "file_line_range": [
+                    99,
+                    103
+                ],
+                "resource": "aws_cloudwatch_log_group.app",
+                "evaluations": null,
+                "check_class": "checkov.terraform.checks.resource.aws.CloudWatchLogGroupKMSKey",
+                "fixed_definition": null,
+                "entity_tags": null,
+                "caller_file_path": null,
+                "caller_file_line_range": null,
+                "resource_address": null,
+                "severity": null,
+                "bc_category": null,
+                "benchmarks": {},
+                "description": null,
+                "short_description": null,
+                "vulnerability_details": null,
+                "connected_node": null,
+                "guideline": null,
+                "details": [],
+                "check_len": null,
+                "definition_context_file_path": "/workspace/infra/aws/main.tf"
+            },
+            {
+                "check_id": "CKV_AWS_338",
+                "bc_check_id": null,
+                "check_name": "Ensure CloudWatch log groups retains logs for at least 1 year",
+                "check_result": {
+                    "result": "FAILED",
+                    "evaluated_keys": [
+                        "retention_in_days"
+                    ]
+                },
+                "code_block": null,
+                "file_path": "/main.tf",
+                "file_abs_path": "/workspace/infra/aws/main.tf",
+                "repo_file_path": "/workspace/infra/aws/main.tf",
+                "file_line_range": [
+                    99,
+                    103
+                ],
+                "resource": "aws_cloudwatch_log_group.app",
+                "evaluations": null,
+                "check_class": "checkov.terraform.checks.resource.aws.CloudWatchLogGroupRetentionYear",
+                "fixed_definition": null,
+                "entity_tags": null,
+                "caller_file_path": null,
+                "caller_file_line_range": null,
+                "resource_address": null,
+                "severity": null,
+                "bc_category": null,
+                "benchmarks": {},
+                "description": null,
+                "short_description": null,
+                "vulnerability_details": null,
+                "connected_node": null,
+                "guideline": null,
+                "details": [],
+                "check_len": null,
+                "definition_context_file_path": "/workspace/infra/aws/main.tf"
+            },
+            {
+                "check_id": "CKV_AWS_88",
+                "bc_check_id": null,
+                "check_name": "EC2 instance should not have public IP.",
+                "check_result": {
+                    "result": "FAILED",
+                    "evaluated_keys": [
+                        "associate_public_ip_address"
+                    ]
+                },
+                "code_block": null,
+                "file_path": "/main.tf",
+                "file_abs_path": "/workspace/infra/aws/main.tf",
+                "repo_file_path": "/workspace/infra/aws/main.tf",
+                "file_line_range": [
+                    125,
+                    161
+                ],
+                "resource": "aws_instance.app",
+                "evaluations": null,
+                "check_class": "checkov.terraform.checks.resource.aws.EC2PublicIP",
+                "fixed_definition": null,
+                "entity_tags": null,
+                "caller_file_path": null,
+                "caller_file_line_range": null,
+                "resource_address": null,
+                "severity": null,
+                "bc_category": null,
+                "benchmarks": {},
+                "description": null,
+                "short_description": null,
+                "vulnerability_details": null,
+                "connected_node": null,
+                "guideline": null,
+                "details": [],
+                "check_len": null,
+                "definition_context_file_path": "/workspace/infra/aws/main.tf",
+                "breadcrumbs": {
+                    "lifecycle.precondition.0.condition": [
+                        {
+                            "type": "variable",
+                            "name": "credit_balance_usd",
+                            "path": "/workspace/infra/aws/variables.tf",
+                            "module_connection": false
+                        }
+                    ],
+                    "lifecycle.precondition.0": [
+                        {
+                            "type": "variable",
+                            "name": "credit_balance_usd",
+                            "path": "/workspace/infra/aws/variables.tf",
+                            "module_connection": false
+                        }
+                    ],
+                    "lifecycle.precondition": [
+                        {
+                            "type": "variable",
+                            "name": "credit_balance_usd",
+                            "path": "/workspace/infra/aws/variables.tf",
+                            "module_connection": false
+                        }
+                    ],
+                    "user_data": [
+                        {
+                            "type": "resource",
+                            "name": "aws_s3_bucket.artifacts",
+                            "path": "/workspace/infra/aws/main.tf",
+                            "module_connection": false
+                        }
+                    ],
+                    "instance_type": [
+                        {
+                            "type": "variable",
+                            "name": "instance_type",
+                            "path": "/workspace/infra/aws/variables.tf",
+                            "module_connection": false
+                        }
+                    ]
+                }
+            },
+            {
+                "check_id": "CKV2_AWS_62",
+                "bc_check_id": null,
+                "check_name": "Ensure S3 buckets should have event notifications enabled",
+                "check_result": {
+                    "result": "FAILED",
+                    "entity": {
+                        "aws_s3_bucket": {
+                            "artifacts": {
+                                "__end_line__": 62,
+                                "__start_line__": 58,
+                                "bucket": [
+                                    "iac-guard-${data.aws_caller_identity.current.account_id}-ap-south-1-${terraform.workspace}"
+                                ],
+                                "depends_on": [
+                                    [
+                                        "terraform_data.credit_gate"
+                                    ]
+                                ],
+                                "force_destroy": [
+                                    false
+                                ],
+                                "__address__": "aws_s3_bucket.artifacts"
+                            }
+                        }
+                    },
+                    "evaluated_keys": [
+                        "resource_type"
+                    ]
+                },
+                "code_block": null,
+                "file_path": "/main.tf",
+                "file_abs_path": "/workspace/infra/aws/main.tf",
+                "repo_file_path": "/workspace/infra/aws/main.tf",
+                "file_line_range": [
+                    58,
+                    62
+                ],
+                "resource": "aws_s3_bucket.artifacts",
+                "evaluations": null,
+                "check_class": "checkov.common.graph.checks_infra.base_check",
+                "fixed_definition": null,
+                "entity_tags": {},
+                "caller_file_path": null,
+                "caller_file_line_range": null,
+                "resource_address": null,
+                "severity": null,
+                "bc_category": null,
+                "benchmarks": {},
+                "description": null,
+                "short_description": null,
+                "vulnerability_details": null,
+                "connected_node": null,
+                "guideline": null,
+                "details": [],
+                "check_len": null,
+                "definition_context_file_path": "/workspace/infra/aws/main.tf",
+                "breadcrumbs": {
+                    "bucket": [
+                        {
+                            "type": "variable",
+                            "name": "region",
+                            "path": "/workspace/infra/aws/variables.tf",
+                            "module_connection": false
+                        }
+                    ],
+                    "force_destroy": [
+                        {
+                            "type": "variable",
+                            "name": "allow_artifact_deletion",
+                            "path": "/workspace/infra/aws/variables.tf",
+                            "module_connection": false
+                        }
+                    ]
+                }
+            },
+            {
+                "check_id": "CKV2_AWS_11",
+                "bc_check_id": null,
+                "check_name": "Ensure VPC flow logging is enabled in all VPCs",
+                "check_result": {
+                    "result": "FAILED",
+                    "entity": {
+                        "aws_vpc": {
+                            "demo": {
+                                "__end_line__": 22,
+                                "__start_line__": 17,
+                                "cidr_block": [
+                                    "10.48.0.0/16"
+                                ],
+                                "depends_on": [
+                                    [
+                                        "terraform_data.credit_gate"
+                                    ]
+                                ],
+                                "enable_dns_hostnames": [
+                                    true
+                                ],
+                                "enable_dns_support": [
+                                    true
+                                ],
+                                "__address__": "aws_vpc.demo"
+                            }
+                        }
+                    },
+                    "evaluated_keys": [
+                        "resource_type",
+                        "networking"
+                    ]
+                },
+                "code_block": null,
+                "file_path": "/main.tf",
+                "file_abs_path": "/workspace/infra/aws/main.tf",
+                "repo_file_path": "/workspace/infra/aws/main.tf",
+                "file_line_range": [
+                    17,
+                    22
+                ],
+                "resource": "aws_vpc.demo",
+                "evaluations": null,
+                "check_class": "checkov.common.graph.checks_infra.base_check",
+                "fixed_definition": null,
+                "entity_tags": {},
+                "caller_file_path": null,
+                "caller_file_line_range": null,
+                "resource_address": null,
+                "severity": null,
+                "bc_category": null,
+                "benchmarks": {},
+                "description": null,
+                "short_description": null,
+                "vulnerability_details": null,
+                "connected_node": null,
+                "guideline": null,
+                "details": [],
+                "check_len": null,
+                "definition_context_file_path": "/workspace/infra/aws/main.tf"
+            },
+            {
+                "check_id": "CKV_AWS_18",
+                "bc_check_id": null,
+                "check_name": "Ensure the S3 bucket has access logging enabled",
+                "check_result": {
+                    "result": "FAILED",
+                    "entity": {
+                        "aws_s3_bucket": {
+                            "artifacts": {
+                                "__end_line__": 62,
+                                "__start_line__": 58,
+                                "bucket": [
+                                    "iac-guard-${data.aws_caller_identity.current.account_id}-ap-south-1-${terraform.workspace}"
+                                ],
+                                "depends_on": [
+                                    [
+                                        "terraform_data.credit_gate"
+                                    ]
+                                ],
+                                "force_destroy": [
+                                    false
+                                ],
+                                "__address__": "aws_s3_bucket.artifacts"
+                            }
+                        }
+                    },
+                    "evaluated_keys": [
+                        "resource_type",
+                        "logging"
+                    ]
+                },
+                "code_block": null,
+                "file_path": "/main.tf",
+                "file_abs_path": "/workspace/infra/aws/main.tf",
+                "repo_file_path": "/workspace/infra/aws/main.tf",
+                "file_line_range": [
+                    58,
+                    62
+                ],
+                "resource": "aws_s3_bucket.artifacts",
+                "evaluations": null,
+                "check_class": "checkov.common.graph.checks_infra.base_check",
+                "fixed_definition": null,
+                "entity_tags": {},
+                "caller_file_path": null,
+                "caller_file_line_range": null,
+                "resource_address": null,
+                "severity": null,
+                "bc_category": null,
+                "benchmarks": {},
+                "description": null,
+                "short_description": null,
+                "vulnerability_details": null,
+                "connected_node": null,
+                "guideline": null,
+                "details": [],
+                "check_len": null,
+                "definition_context_file_path": "/workspace/infra/aws/main.tf",
+                "breadcrumbs": {
+                    "bucket": [
+                        {
+                            "type": "variable",
+                            "name": "region",
+                            "path": "/workspace/infra/aws/variables.tf",
+                            "module_connection": false
+                        }
+                    ],
+                    "force_destroy": [
+                        {
+                            "type": "variable",
+                            "name": "allow_artifact_deletion",
+                            "path": "/workspace/infra/aws/variables.tf",
+                            "module_connection": false
+                        }
+                    ]
+                }
+            },
+            {
+                "check_id": "CKV_AWS_144",
+                "bc_check_id": null,
+                "check_name": "Ensure that S3 bucket has cross-region replication enabled",
+                "check_result": {
+                    "result": "FAILED",
+                    "entity": {
+                        "aws_s3_bucket": {
+                            "artifacts": {
+                                "__end_line__": 62,
+                                "__start_line__": 58,
+                                "bucket": [
+                                    "iac-guard-${data.aws_caller_identity.current.account_id}-ap-south-1-${terraform.workspace}"
+                                ],
+                                "depends_on": [
+                                    [
+                                        "terraform_data.credit_gate"
+                                    ]
+                                ],
+                                "force_destroy": [
+                                    false
+                                ],
+                                "__address__": "aws_s3_bucket.artifacts"
+                            }
+                        }
+                    },
+                    "evaluated_keys": [
+                        "resource_type",
+                        "replication_configuration/rules/*/status",
+                        "rule/*/status"
+                    ]
+                },
+                "code_block": null,
+                "file_path": "/main.tf",
+                "file_abs_path": "/workspace/infra/aws/main.tf",
+                "repo_file_path": "/workspace/infra/aws/main.tf",
+                "file_line_range": [
+                    58,
+                    62
+                ],
+                "resource": "aws_s3_bucket.artifacts",
+                "evaluations": null,
+                "check_class": "checkov.common.graph.checks_infra.base_check",
+                "fixed_definition": null,
+                "entity_tags": {},
+                "caller_file_path": null,
+                "caller_file_line_range": null,
+                "resource_address": null,
+                "severity": null,
+                "bc_category": null,
+                "benchmarks": {},
+                "description": null,
+                "short_description": null,
+                "vulnerability_details": null,
+                "connected_node": null,
+                "guideline": null,
+                "details": [],
+                "check_len": null,
+                "definition_context_file_path": "/workspace/infra/aws/main.tf",
+                "breadcrumbs": {
+                    "bucket": [
+                        {
+                            "type": "variable",
+                            "name": "region",
+                            "path": "/workspace/infra/aws/variables.tf",
+                            "module_connection": false
+                        }
+                    ],
+                    "force_destroy": [
+                        {
+                            "type": "variable",
+                            "name": "allow_artifact_deletion",
+                            "path": "/workspace/infra/aws/variables.tf",
+                            "module_connection": false
+                        }
+                    ]
+                }
+            },
+            {
+                "check_id": "CKV_AWS_145",
+                "bc_check_id": null,
+                "check_name": "Ensure that S3 buckets are encrypted with KMS by default",
+                "check_result": {
+                    "result": "FAILED",
+                    "entity": {
+                        "aws_s3_bucket": {
+                            "artifacts": {
+                                "__end_line__": 62,
+                                "__start_line__": 58,
+                                "bucket": [
+                                    "iac-guard-${data.aws_caller_identity.current.account_id}-ap-south-1-${terraform.workspace}"
+                                ],
+                                "depends_on": [
+                                    [
+                                        "terraform_data.credit_gate"
+                                    ]
+                                ],
+                                "force_destroy": [
+                                    false
+                                ],
+                                "__address__": "aws_s3_bucket.artifacts"
+                            }
+                        }
+                    },
+                    "evaluated_keys": [
+                        "resource_type",
+                        "server_side_encryption_configuration/rule/apply_server_side_encryption_by_default/sse_algorithm",
+                        "rule/apply_server_side_encryption_by_default/sse_algorithm"
+                    ]
+                },
+                "code_block": null,
+                "file_path": "/main.tf",
+                "file_abs_path": "/workspace/infra/aws/main.tf",
+                "repo_file_path": "/workspace/infra/aws/main.tf",
+                "file_line_range": [
+                    58,
+                    62
+                ],
+                "resource": "aws_s3_bucket.artifacts",
+                "evaluations": null,
+                "check_class": "checkov.common.graph.checks_infra.base_check",
+                "fixed_definition": null,
+                "entity_tags": {},
+                "caller_file_path": null,
+                "caller_file_line_range": null,
+                "resource_address": null,
+                "severity": null,
+                "bc_category": null,
+                "benchmarks": {},
+                "description": null,
+                "short_description": null,
+                "vulnerability_details": null,
+                "connected_node": null,
+                "guideline": null,
+                "details": [],
+                "check_len": null,
+                "definition_context_file_path": "/workspace/infra/aws/main.tf",
+                "breadcrumbs": {
+                    "bucket": [
+                        {
+                            "type": "variable",
+                            "name": "region",
+                            "path": "/workspace/infra/aws/variables.tf",
+                            "module_connection": false
+                        }
+                    ],
+                    "force_destroy": [
+                        {
+                            "type": "variable",
+                            "name": "allow_artifact_deletion",
+                            "path": "/workspace/infra/aws/variables.tf",
+                            "module_connection": false
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "summary": {
+        "passed": 47,
+        "failed": 8,
+        "skipped": 0,
+        "parsing_errors": 0,
+        "resource_count": 20,
+        "checkov_version": "3.2.489"
+    }
+}
